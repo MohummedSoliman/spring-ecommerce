@@ -1,5 +1,6 @@
 package com.mohamed.springbootecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,5 +25,6 @@ public class Country {
     private String name;
 
     @OneToMany(mappedBy = "country",cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<State> states;
 }
