@@ -1,7 +1,9 @@
 package com.mohamed.springbootecommerce.config;
 
+import com.mohamed.springbootecommerce.entity.Country;
 import com.mohamed.springbootecommerce.entity.Product;
 import com.mohamed.springbootecommerce.entity.ProductCategory;
+import com.mohamed.springbootecommerce.entity.State;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.EntityType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,24 +26,27 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
     }
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
-        HttpMethod[] theUnSupportedActions = {HttpMethod.POST, HttpMethod.DELETE, HttpMethod.PUT};
+
 
         // Disable Http method --> PUT, POST AND DELETE
-        // Make Product READ_ONLY
-        config.getExposureConfiguration()
-                .forDomainType(Product.class)
-                .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnSupportedActions))
-                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnSupportedActions));
+        disableHttpMethods(config, Product.class);
 
-        // Disable Http method --> PUT, POST AND DELETE
-        // Make Product READ_ONLY
-        config.getExposureConfiguration()
-                .forDomainType(ProductCategory.class)
-                .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnSupportedActions))
-                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnSupportedActions));
+        disableHttpMethods(config, ProductCategory.class);
+
+        disableHttpMethods(config, Country.class);
+
+        disableHttpMethods(config, State.class);
 
         // This is for expose ids for all entities so Spring Data Rest not expose ids by default.
         exposeIdsForAllEntities(config);
+    }
+
+    private void disableHttpMethods(RepositoryRestConfiguration config, Class domain){
+        HttpMethod[] theUnSupportedActions = {HttpMethod.POST, HttpMethod.DELETE, HttpMethod.PUT};
+        config.getExposureConfiguration()
+                .forDomainType(domain)
+                .withItemExposure((metadata, httpMethods) -> httpMethods.disable(theUnSupportedActions))
+                .withCollectionExposure((metadata, httpMethods) -> httpMethods.disable(theUnSupportedActions));
     }
 
     private void exposeIdsForAllEntities(RepositoryRestConfiguration config) {
