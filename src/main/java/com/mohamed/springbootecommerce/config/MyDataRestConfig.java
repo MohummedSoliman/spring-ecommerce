@@ -1,9 +1,6 @@
 package com.mohamed.springbootecommerce.config;
 
-import com.mohamed.springbootecommerce.entity.Country;
-import com.mohamed.springbootecommerce.entity.Product;
-import com.mohamed.springbootecommerce.entity.ProductCategory;
-import com.mohamed.springbootecommerce.entity.State;
+import com.mohamed.springbootecommerce.entity.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.EntityType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +37,8 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(config, Country.class);
 
         disableHttpMethods(config, State.class);
+
+        disableHttpMethods(config, Order.class);
 
         // This is for expose ids for all entities so Spring Data Rest not expose ids by default.
         exposeIdsForAllEntities(config);
