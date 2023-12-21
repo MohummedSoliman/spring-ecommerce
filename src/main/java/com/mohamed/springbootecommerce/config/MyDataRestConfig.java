@@ -39,6 +39,8 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
         // This is for expose ids for all entities so Spring Data Rest not expose ids by default.
         exposeIdsForAllEntities(config);
+
+        cors.addMapping("/api/**").allowedOrigins("http://172.17.0.2:4200");
     }
 
     private void disableHttpMethods(RepositoryRestConfiguration config, Class domain){
